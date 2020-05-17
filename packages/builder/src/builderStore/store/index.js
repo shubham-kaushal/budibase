@@ -410,6 +410,7 @@ const selectComponent = store => component => {
 }
 
 const setComponentProp = store => (name, value) => {
+  debugger
   store.update(state => {
     const current_component = state.currentComponentInfo
     state.currentComponentInfo[name] = value
@@ -426,7 +427,9 @@ const setComponentStyle = store => (type, name, value) => {
     if (!state.currentComponentInfo._styles) {
       state.currentComponentInfo._styles = {}
     }
-    state.currentComponentInfo._styles[type][name] = value
+    // state.currentComponentInfo._styles[type][name] = value
+    state.currentComponentInfo._styles[name] = value
+
     state.currentPreviewItem._css = generate_screen_css([
       state.currentPreviewItem.props,
     ])
