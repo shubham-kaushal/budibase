@@ -10,6 +10,16 @@ const FAKE_BOOL = false
 const FAKE_NUMBER = 1
 const FAKE_DATETIME = "1970-01-01T00:00:00.000Z"
 
+const DEFAULT_WEBHOOK_OUTPUTS = {
+  properties: {
+    body: {
+      type: "object",
+        description: "Body of the request which hit the webhook",
+    },
+  },
+  required: ["body"],
+}
+
 const BUILTIN_DEFINITIONS = {
   ROW_SAVED: {
     name: "Row Saved",
@@ -107,15 +117,7 @@ const BUILTIN_DEFINITIONS = {
         },
         required: ["schemaUrl", "triggerUrl"],
       },
-      outputs: {
-        properties: {
-          body: {
-            type: "object",
-            description: "Body of the request which hit the webhook",
-          },
-        },
-        required: ["body"],
-      },
+      outputs: DEFAULT_WEBHOOK_OUTPUTS,
     },
     type: "TRIGGER",
   },
@@ -216,3 +218,4 @@ module.exports.externalTrigger = async function(automation, params) {
 module.exports.automationQueue = automationQueue
 
 module.exports.BUILTIN_DEFINITIONS = BUILTIN_DEFINITIONS
+module.exports.DEFAULT_WEBHOOK_OUTPUTS = DEFAULT_WEBHOOK_OUTPUTS

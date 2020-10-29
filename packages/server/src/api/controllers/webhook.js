@@ -1,8 +1,11 @@
 const CouchDB = require("../../db")
 const { generateWebhookID, getWebhookParams } = require("../../db/utils")
 const toJsonSchema = require("to-json-schema")
+const env = require("../../environment")
 const validate = require("jsonschema").validate
 const triggers = require("../../automations/triggers")
+const websocket = require("../../websockets")
+const { cloneDeep } = require("lodash/fp")
 
 const AUTOMATION_DESCRIPTION = "Generated from Webhook Schema"
 
@@ -31,6 +34,13 @@ exports.fetch = async ctx => {
   ctx.body = response.rows.map(row => row.doc)
 }
 
+exports.externalConnection = async ctx => {
+  ctx.body = {
+    connected: websocket.isConnected(),
+    url: env.WEBSOCKET_SERVER,
+  }
+}
+
 exports.save = async ctx => {
   const db = new CouchDB(ctx.user.appId)
   const webhook = ctx.request.body
@@ -43,6 +53,7 @@ exports.save = async ctx => {
     webhook._id = generateWebhookID()
   }
   const response = await db.put(webhook)
+  websocket.setupWebhook(ctx.user.appId, webhook._id)
   ctx.body = {
     message: "Webhook created successfully",
     webhook: {
@@ -54,31 +65,33 @@ exports.save = async ctx => {
 
 exports.destroy = async ctx => {
   const db = new CouchDB(ctx.user.appId)
+  websocket.destroyWebhook(ctx.user.appId, ctx.params.id)
   ctx.body = await db.remove(ctx.params.id, ctx.params.rev)
 }
 
 exports.buildSchema = async ctx => {
-  const db = new CouchDB(ctx.params.instance)
+  const db = new CouchDB(ctx.params.appId)
   const webhook = await db.get(ctx.params.id)
   webhook.bodySchema = toJsonSchema(ctx.request.body)
   // update the automation outputs
   if (webhook.action.type === exports.WebhookType.AUTOMATION) {
     let automation = await db.get(webhook.action.target)
-    const autoOutputs = automation.definition.trigger.schema.outputs
+    const outputs = cloneDeep(triggers.DEFAULT_WEBHOOK_OUTPUTS)
     let properties = webhook.bodySchema.properties
     for (let prop of Object.keys(properties)) {
-      autoOutputs.properties[prop] = {
+      outputs.properties[prop] = {
         type: properties[prop].type,
         description: AUTOMATION_DESCRIPTION,
       }
     }
+    automation.definition.trigger.schema.outputs = outputs
     await db.put(automation)
   }
   ctx.body = await db.put(webhook)
 }
 
 exports.trigger = async ctx => {
-  const db = new CouchDB(ctx.params.instance)
+  const db = new CouchDB(ctx.params.appId)
   const webhook = await db.get(ctx.params.id)
   // validate against the schema
   if (webhook.bodySchema) {
@@ -91,7 +104,7 @@ exports.trigger = async ctx => {
     await triggers.externalTrigger(target, {
       body: ctx.request.body,
       ...ctx.request.body,
-      appId: ctx.params.instance,
+      appId: ctx.params.appId,
     })
   }
   ctx.status = 200

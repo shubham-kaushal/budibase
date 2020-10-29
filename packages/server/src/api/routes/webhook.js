@@ -24,6 +24,12 @@ function generateSaveValidator() {
 
 router
   .get("/api/webhooks", authorized(BUILDER), controller.fetch)
+  // checks if has has WS external connection
+  .get(
+    "/api/webhook/connected",
+    authorized(BUILDER),
+    controller.externalConnection
+  )
   .put(
     "/api/webhooks",
     authorized(BUILDER),
@@ -32,12 +38,12 @@ router
   )
   .delete("/api/webhooks/:id/:rev", authorized(BUILDER), controller.destroy)
   .post(
-    "/api/webhooks/schema/:instance/:id",
+    "/api/webhooks/schema/:appId/:id",
     authorized(BUILDER),
     controller.buildSchema
   )
   .post(
-    "/api/webhooks/trigger/:instance/:id",
+    "/api/webhooks/trigger/:appId/:id",
     authorized(EXECUTE_WEBHOOK),
     controller.trigger
   )

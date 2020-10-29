@@ -8,6 +8,7 @@ const automationActions = store => ({
     const responses = await Promise.all([
       api.get(`/api/automations`),
       api.get(`/api/automations/definitions/list`),
+      api.get(`/api/webhook/connected`)
     ])
     const jsonResponses = await Promise.all(responses.map(x => x.json()))
     store.update(state => {
@@ -18,6 +19,7 @@ const automationActions = store => ({
         ACTION: jsonResponses[1].action,
         LOGIC: jsonResponses[1].logic,
       }
+      state.webhooks = jsonResponses[2]
       // if previously selected find the new obj and select it
       if (selected) {
         selected = jsonResponses[0].filter(
@@ -125,6 +127,9 @@ export const getAutomationStore = () => {
       TRIGGER: [],
       ACTION: [],
       LOGIC: [],
+    },
+    webhooks: {
+      connected: false
     },
     selectedAutomation: null,
   }
