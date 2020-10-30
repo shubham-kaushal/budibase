@@ -5,12 +5,12 @@ const { MessageTypes, getAllWebhooks } = require("./utils")
 
 const WS_PROTOCOL = "ws://"
 
-if (!env.WEBSOCKET_SERVER) {
-  env._set("WEBSOCKET_SERVER", "http://localhost:4003")
-} else if (env.WEBSOCKET_SERVER.endsWith("/")) {
+if (!env.CLOUD_JOB_SERVER) {
+  env._set("CLOUD_JOB_SERVER", "http://localhost:4003")
+} else if (env.CLOUD_JOB_SERVER.endsWith("/")) {
   env._set(
-    "WEBSOCKET_SERVER",
-    env.WEBSOCKET_SERVER.substring(0, env.WEBSOCKET_SERVER.length - 2)
+    "CLOUD_JOB_SERVER",
+    env.CLOUD_JOB_SERVER.substring(0, env.CLOUD_JOB_SERVER.length - 2)
   )
 }
 const RETRY_PERIOD_MS = 30000
@@ -55,7 +55,7 @@ exports.init = () => {
     return
   }
   try {
-    const urlParts = env.WEBSOCKET_SERVER.split("//")
+    const urlParts = env.CLOUD_JOB_SERVER.split("//")
     const server = `${WS_PROTOCOL}${urlParts[1]}`
     internals.client = new WebSocket(server)
   } catch (err) {

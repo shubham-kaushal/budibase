@@ -35,7 +35,7 @@ module.exports = {
   ENABLE_ANALYTICS: process.env.ENABLE_ANALYTICS,
   DEPLOYMENT_DB_URL: process.env.DEPLOYMENT_DB_URL,
   // needs to be set with http/https
-  WEBSOCKET_SERVER: process.env.WEBSOCKET_SERVER,
+  CLOUD_JOB_SERVER: process.env.CLOUD_JOB_SERVER,
   _set(key, value) {
     process.env[key] = value
     module.exports[key] = value
