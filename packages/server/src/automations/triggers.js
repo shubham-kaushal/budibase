@@ -14,7 +14,7 @@ const DEFAULT_WEBHOOK_OUTPUTS = {
   properties: {
     body: {
       type: "object",
-        description: "Body of the request which hit the webhook",
+      description: "Body of the request which hit the webhook",
     },
   },
   required: ["body"],

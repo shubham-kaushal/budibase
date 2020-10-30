@@ -24,7 +24,9 @@
     console.log(toCompare)
     interval = setInterval(async () => {
       if (!toCompare) {
-        toCompare = JSON.stringify(automation?.definition?.trigger.schema.outputs?.properties)
+        toCompare = JSON.stringify(
+          automation?.definition?.trigger.schema.outputs?.properties
+        )
       }
       await automationStore.actions.fetch()
       const outputs = automation?.definition?.trigger.schema.outputs?.properties

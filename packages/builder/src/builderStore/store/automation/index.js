@@ -8,7 +8,7 @@ const automationActions = store => ({
     const responses = await Promise.all([
       api.get(`/api/automations`),
       api.get(`/api/automations/definitions/list`),
-      api.get(`/api/webhook/connected`)
+      api.get(`/api/webhook/connected`),
     ])
     const jsonResponses = await Promise.all(responses.map(x => x.json()))
     store.update(state => {
@@ -129,7 +129,7 @@ export const getAutomationStore = () => {
       LOGIC: [],
     },
     webhooks: {
-      connected: false
+      connected: false,
     },
     selectedAutomation: null,
   }
