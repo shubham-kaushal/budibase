@@ -3,7 +3,6 @@
   import WebhookDisplay from "./WebhookDisplay.svelte"
   import { ModalContent } from "@budibase/bbui"
   import { onMount, onDestroy } from "svelte"
-  import { cloneDeep } from "lodash/fp"
 
   const POLL_RATE_MS = 2500
   let interval
@@ -25,12 +24,12 @@
     console.log(toCompare)
     interval = setInterval(async () => {
       if (!toCompare) {
-        toCompare = cloneDeep(automation?.definition?.trigger.schema.outputs?.properties)
+        toCompare = JSON.stringify(automation?.definition?.trigger.schema.outputs?.properties)
       }
       await automationStore.actions.fetch()
       const outputs = automation?.definition?.trigger.schema.outputs?.properties
       // always one prop for the "body"
-      if (Object.keys(outputs).length !== Object.keys(toCompare).length) {
+      if (JSON.stringify(outputs) !== toCompare) {
         propCount = Object.keys(outputs).length - 1
         finished = true
       }
