@@ -37,7 +37,7 @@ exports.fetch = async ctx => {
 exports.externalConnection = async ctx => {
   ctx.body = {
     connected: websocket.isConnected(),
-    url: env.WEBSOCKET_SERVER,
+    url: env.CLOUD_JOB_SERVER,
   }
 }
 
