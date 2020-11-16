@@ -1,5 +1,5 @@
 <script>
-  import { Input, Select, Label, DatePicker, Toggle } from "@budibase/bbui"
+  import { Input, Select, Label, DatePicker, Toggle, RichText } from "@budibase/bbui"
   import Dropzone from "components/common/Dropzone.svelte"
   import { capitalise } from "../../../helpers"
   import LinkedRowSelector from "components/common/LinkedRowSelector.svelte"
@@ -29,6 +29,8 @@
   <Toggle text={label} bind:checked={value} data-cy="{meta.name}-input" />
 {:else if type === 'link'}
   <LinkedRowSelector bind:linkedRows={value} schema={meta} />
+{:else if type === 'longform'}
+  <RichText data-cy="{meta.name}-longform" bind:content={value}  />
 {:else}
   <Input thin {label} data-cy="{meta.name}-input" {type} bind:value />
 {/if}
