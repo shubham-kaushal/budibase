@@ -719,10 +719,10 @@
     svelte-flatpickr "^2.4.0"
     svelte-portal "^1.0.0"
 
-"@budibase/client@^0.3.7":
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/@budibase/client/-/client-0.3.7.tgz#8ed2d40d91ba3788a69ee5db5078f757adb4187f"
-  integrity sha512-EgpHfw/WOUYeCG4cILDbaN2WFBDSPS698Z+So7FP5l+4E1fvmqtpXVKJYsviwYEx8AKKYyU3nuDi0l6xzb5Flg==
+"@budibase/client@^0.3.8":
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/@budibase/client/-/client-0.3.8.tgz#75df7e97e8f0d9b58c00e2bb0d3b4a55f8d04735"
+  integrity sha512-tnFdmCdXKS+uZGoipr69Wa0oVoFHmyoV0ydihI6q0gKQH0KutypVHAaul2qPB8t5a/mTZopC//2WdmCeX1GKVg==
   dependencies:
     deep-equal "^2.0.1"
     mustache "^4.0.1"
@@ -4449,11 +4449,12 @@ lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
 
-lodash@^4.17.13, lodash@^4.17.15:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+lodash@^4.17.13:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
-lodash@^4.17.19:
+lodash@^4.17.15, lodash@^4.17.19:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
 
